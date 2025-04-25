@@ -8,7 +8,7 @@ openai.api_version = "2023-05-15"
 
 response = openai.Completion.create(
     engine="gpt-35-turbo",
-    prompt="Say Hello, World!t",
+    prompt="Say Hello, World!te",
     max_tokens=10
 )
 
