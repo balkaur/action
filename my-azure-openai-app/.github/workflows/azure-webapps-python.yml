@@ -1,42 +1,27 @@
-name: Run Azure OpenAI Python Script
+name: Run OpenAI Script
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:  # Optional: allows manual run from GitHub UI
+    branches: [main]  # runs when you push to main
+  workflow_dispatch:  # allows manual run from GitHub UI
 
 jobs:
   run-openai:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          python-version: 3.10
 
       - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Run Python Script with Azure OpenAI
+      - name: Run OpenAI script
         env:
-          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
-        run: |
-          source venv/bin/activate
-          python hello_openai.py
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python hello_openai.py

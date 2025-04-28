@@ -11,5 +11,7 @@ response = openai.Completion.create(
     prompt="Say Hello, World!",
     max_tokens=10
 )
-
+print("Response:")
 print(response.choices[0].text.strip())
+
+
