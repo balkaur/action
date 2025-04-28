@@ -2,16 +2,39 @@ import openai
 import os
 
 openai.api_key = os.getenv("AZURE_OPENAI_API_KEY")
-openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
-openai.api_type = "azure"
-openai.api_version = "2023-05-15"
+import os
+from openai import AzureOpenAI
 
-response = openai.Completion.create(
-    engine="gpt-35-turbo",
-    prompt="Say Hello, World!",
-    max_tokens=10
+endpoint = "https://bkaur-ma1lxrna-eastus2.cognitiveservices.azure.com/"
+model_name = "gpt-4.1-mini"
+deployment = "testing"
+
+subscription_key = os.getenv("AZURE_OPENAI_API_KEY")
+api_version = "2024-12-01-preview"
+
+client = AzureOpenAI(
+    api_version=api_version,
+    azure_endpoint=endpoint,
+    api_key=subscription_key,
 )
-print("Response:")
-print(response.choices[0].text.strip())
 
+response = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "I am going to Paris, what should I see?",
+        }
+    ],
+    max_completion_tokens=800,
+    temperature=1.0,
+    top_p=1.0,
+    frequency_penalty=0.0,
+    presence_penalty=0.0,
+    model=deployment
+)
 
+print(response.choices[0].message.content)
