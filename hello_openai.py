@@ -1,9 +1,12 @@
 import openai
 import os
 
-openai.api_key = os.getenv("AZURE_OPENAI_API_KEY")
 import os
 from openai import AzureOpenAI
+
+
+
+
 
 endpoint = "https://bkaur-ma1lxrna-eastus2.cognitiveservices.azure.com/"
 model_name = "gpt-4.1-mini"
